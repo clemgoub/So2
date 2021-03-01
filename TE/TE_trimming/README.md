@@ -17,7 +17,7 @@ It looks for dips in coverage (< 5% mean coverage) and split. A graph is provide
 
 ## Usage 
 
-In this example, the TE consensus file (`<TE-consensus-lib.fa>`) looks like this:
+In this example, the TE consensus file (`<TE-consensus-lib.fasta>`) looks like this:
 
 ```
 >TENAME#Class/Superfamily [info info]
@@ -28,12 +28,12 @@ TGCATACCAGA...
 
 If you are investigating a single TE consensus, use the `H` (header) mode
 
-```TE-trimmer.sh H TENAME#Class/Superfamily <genome.fasta.out> <TE-consensus-lib.fa> <outputdir>```
+```TE-trimmer.sh H TENAME#Class/Superfamily <genome.fasta.out> <TE-consensus-lib.fasta> <outputdir>```
 
-Or if you want to run the analysis inbatch, list the TE you want to trim in a file. 
+Or if you want to run the analysis in batch, list the TE you want to trim in a file. 
 
 ```
-TE-trimmer.sh L <TE-header/TE-header-list> <genome.fasta.out> <TE-consensus-lib.fa> <outputdir>
+TE-trimmer.sh L <TE-header/TE-header-list> <genome.fasta.out> <TE-consensus-lib.fasta> <outputdir>
 ```
 
 with `TE-header-list`:
