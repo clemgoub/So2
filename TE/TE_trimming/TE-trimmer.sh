@@ -29,11 +29,14 @@ echo "\"H\" mode" # single sequence mode
 ./extractfasta.sh H $2 $4 > $5/TE.fasta
 samtools faidx $5/TE.fasta
 echo "mapping and computing coverage..."
-Rscript ./Run-c2g.R $5/TE.fasta $3 | grep "^\[[1-9].*\]" | cut -f 2- | awk 'NR > 1 {print $2"\t"$3}' > $5/TE
+Rscript ./Run-c2g.R $2 $3 $4 | grep "^\[1\]" | awk '{print $2"\t"$3}' > $5/TE
+#Rscript ./Run-c2g.R $5/TE.fasta $3 | grep "^\[[1-9].*\]" | cut -f 2- | awk 'NR > 1 {print $2"\t"$3}' > $5/TE
 #ho=$(cat $5/TE | sed 's/"//g')
 #testing="NOTRIM"
 wait
 
+seq=$(echo "$2" | sed 's/\//_/g')
+mv *c2g.pdf $5/seq"".c2g.pdf
 
 if [[ $(cat $5/TE | sed 's/"//g') == "" ]]
 
@@ -43,14 +46,24 @@ if [[ $(cat $5/TE | sed 's/"//g') == "" ]]
       
       else
       
-echo "trimming..."
-tename=$(head -n 1 $5/TE.fasta | sed 's/>//g' | awk '{print $1}')
-awk -v tename=$tename '{print tename"\t"$0}' $5/TE > $5/TE.bed
-awk 'BEGIN {OFS = "\n"}; /^>/ {print(substr(sequence_id, 2)" "sequence_length); sequence_length = 0; sequence_id = $0}; /^[^>]/ {sequence_length += length($0)}; END {print(substr(sequence_id, 2)" "sequence_length)}' $5/TE.fasta | awk 'NR > 1 {print $1"\t"$NF}' > $5/TE.genome 
-bedtools complement -i $5/TE.bed -g $5/TE.genome > $5/TE.1.bed
-tename2=$(head -n 1 $5/TE.fasta | sed 's/>//g;s/#/\t/g' | awk '{print $1}')
-bedtools getfasta -fi $5/TE.fasta -bed $5/TE.1.bed > $5/$tename2''.splitted.fasta
-mv *.pdf $5/$tename2''.pdf
+		# echo "trimming..."
+		# tename=$(head -n 1 $5/TE.fasta | sed 's/>//g' | awk '{print $1}')
+		# awk -v tename=$tename '{print tename"\t"$0}' $5/TE > $5/TE.bed
+		# awk 'BEGIN {OFS = "\n"}; /^>/ {print(substr(sequence_id, 2)" "sequence_length); sequence_length = 0; sequence_id = $0}; /^[^>]/ {sequence_length += length($0)}; END {print(substr(sequence_id, 2)" "sequence_length)}' $5/TE.fasta | awk 'NR > 1 {print $1"\t"$NF}' > $5/TE.genome 
+		# bedtools complement -i $5/TE.bed -g $5/TE.genome > $5/TE.1.bed
+		# tename2=$(head -n 1 $5/TE.fasta | sed 's/>//g;s/#/\t/g' | awk '{print $1}')
+		# bedtools getfasta -fi $5/TE.fasta -bed $5/TE.1.bed > $5/$tename2''.splitted.fasta
+		# mv *.pdf $5/$tename2''.pdf
+
+      echo "trimming..."
+      #tename=$(head -n 1 $5/TE.fasta | sed 's/>//g' | awk '{print $1}')
+      awk -v tename=$2 '{print tename"\t"$0}' $5/TE > $5/TE.bed
+      paste <(echo "$2") <(awk 'BEGIN {OFS = "\n"}; /^>/ {print(substr(sequence_id, 2)" "sequence_length); sequence_length = 0; sequence_id = $0}; /^[^>]/ {sequence_length += length($0)}; END {print(substr(sequence_id, 2)" "sequence_length)}' $5/TE.fasta | awk 'NR > 1 {print $NF}')  > $5/TE.genome 
+      bedtools complement -i $5/TE.bed -g $5/TE.genome > $5/TE.1.bed
+      tename2=$(head -n 1 $5/TE.fasta | sed 's/>//g' | tr "#" "\t" | awk '{print $1}')
+      bedtools getfasta -fi $5/TE.fasta -bed $5/TE.1.bed > $5/$tename2''.splitted.fasta
+      python filterlength.py $5/$tename2''.splitted.fasta 200 20000 $5/$tename2''.splitted.clean.fasta
+
 
 fi
 
@@ -66,14 +79,19 @@ elif [[ $1 == "L" ]]
   echo "$seq"
 
 ./extractfasta.sh H "$seq" $4 > $5/TE.fasta
+wait
+echo "indexing..."
 samtools faidx $5/TE.fasta
 echo "mapping and computing coverage..."
 # ./Run-c2g.R TE RM Lib
 Rscript ./Run-c2g.R $seq $3 $4 | grep "^\[1\]" | awk '{print $2"\t"$3}' > $5/TE
 #ho=$(cat $5/TE | sed 's/"//g')
 #testing="NOTRIM"
+
 wait
 
+seqn=$(echo "$seq" | sed 's/\//_/g')
+mv *c2g.pdf $5/$seqn"".c2g.pdf
 
 if [[ $(cat $5/TE | sed 's/"//g') == "" ]]
 
@@ -88,7 +106,7 @@ if [[ $(cat $5/TE | sed 's/"//g') == "" ]]
       awk -v tename=$seq '{print tename"\t"$0}' $5/TE > $5/TE.bed
       paste <(echo "$seq") <(awk 'BEGIN {OFS = "\n"}; /^>/ {print(substr(sequence_id, 2)" "sequence_length); sequence_length = 0; sequence_id = $0}; /^[^>]/ {sequence_length += length($0)}; END {print(substr(sequence_id, 2)" "sequence_length)}' $5/TE.fasta | awk 'NR > 1 {print $NF}')  > $5/TE.genome 
       bedtools complement -i $5/TE.bed -g $5/TE.genome > $5/TE.1.bed
-      tename2=$(head -n 1 $5/TE.fasta | sed 's/>//g;s/#/\t/g' | awk '{print $1}')
+      tename2=$(head -n 1 $5/TE.fasta | sed 's/>//g' | tr "#" "\t" | awk '{print $1}')
       bedtools getfasta -fi $5/TE.fasta -bed $5/TE.1.bed > $5/$tename2''.splitted.fasta
       python filterlength.py $5/$tename2''.splitted.fasta 200 20000 $5/$tename2''.splitted.clean.fasta
       #mv *.pdf $5/$tename2''.pdf
