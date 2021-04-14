@@ -1,0 +1,28 @@
+Unable to open /Users/cgoubert/Documents/TE_workshop/Manual_curation_paper/anna_analysis/both_ltr1_f103.fasta.2.fasta. Trying mothur's executable location both_ltr1_f103.fasta.2.fasta.
+Unable to open both_ltr1_f103.fasta.2.fasta. Trying mothur's tools location both_ltr1_f103.fasta.2.fasta.
+Unable to open both_ltr1_f103.fasta.2.fasta.
+Unable to open 1/../../../anna_analysis/both_ltr1_f103.fasta.2.fasta
+Unable to open /Users/cgoubert/Documents/TE_workshop/Manual_curation_paper/anna_analysis/both_ltr1_f103.fasta.aligned.nn.list. Trying mothur's executable location both_ltr1_f103.fasta.aligned.nn.list.
+Unable to open both_ltr1_f103.fasta.aligned.nn.list. Trying mothur's tools location both_ltr1_f103.fasta.aligned.nn.list.
+Unable to open both_ltr1_f103.fasta.aligned.nn.list.
+Unable to open 1/../../../anna_analysis/both_ltr1_f103.fasta.aligned.nn.list
+Unable to open /Users/cgoubert/Documents/TE_workshop/Manual_curation_paper/anna_analysis/both_ltr1_f103.fasta.names. Trying mothur's executable location both_ltr1_f103.fasta.names.
+Unable to open both_ltr1_f103.fasta.names. Trying mothur's tools location both_ltr1_f103.fasta.names.
+Unable to open both_ltr1_f103.fasta.names.
+Unable to open 1/../../../anna_analysis/both_ltr1_f103.fasta.names
+[ERROR]: did not complete bin.seqs.
+
+mothur > quit()
+
+
+It took 0 seconds to run 2 commands from your script.
+
+
+
+************************************************************
+************************************************************
+************************************************************
+Detected 1 [ERROR] messages, please review.
+************************************************************
+************************************************************
+************************************************************
