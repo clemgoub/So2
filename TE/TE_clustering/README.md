@@ -11,12 +11,19 @@ Must be available in the `$PATH`
 - `MAFFT` -- [link/install](https://github.com/GSLBiotech/mafft)
 - `Mothur` -- [link/install](https://github.com/mothur/mothur/releases/tag/v1.45.2)
 - `Refiner` + `Perl` -- [perl script](https://github.com/Dfam-consortium/RepeatModeler/blob/master/Refiner)-(also included with `RepeatModeler 2`)
+- `GNU parallel` -- [link/install](https://www.gnu.org/software/parallel/)
+
+**Tips:**
+
+- `Mafft` and `GNU parallel` can be directly installed from your favorite package manager (yum, apt-get, brew,...)
+- `Mothur`: clone the git repos, make the files executable (`chmod +x ./mothur/*`) and move `./mothur/mothur` to `/usr/local/bin` or [add the `mothur/` folder to your bashrc](https://gist.github.com/nex3/c395b2f8fd4b02068be37c961301caa7)
+- `Refiner`: copy/paste the code into a new file, save as `Refiner` (no extension). Make `Refiner` available in the `$PATH`
 
 ## Usage
 
 *DO not add the ".fasta" extension to your library name in the following command:*
 
-```./combine.TE.library.sh TE.library.name```
+```./combine.TE.library.sh TE.library.name Output.Folder```
 
 
 ---
