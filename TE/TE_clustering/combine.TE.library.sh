@@ -10,27 +10,27 @@
 # v1 - < Aug 2020, Jullien Flynn
 
 # Parameters:
-# $filename == concatenated fasta sequences
+# $1 == concatenated fasta sequences
 # $2 == output folder
 # $3 == cpus
 
 #date
 d1=$(date +%s)
-filename=$(sed 's/\//\t/g' | awk '{print $NF}')
-echo $filename
+filename=$(echo $1 | sed 's/\//\t/g' | awk '{print $NF}')
+echo $1
 echo $filename
 mkdir -p $2
 
 # first cluster the sequences - shown to get them to the family level
 
 # rename with line + leading zeros == consensus reference code
-awk '/>/ {printf(">%09d\n",NR, $filename)}; !/>/ {print $0}' $1 > $2/$filename.2.fasta
+awk '/>/ {printf(">%09d\n",NR, $1)}; !/>/ {print $0}' $1 > $2/$filename.2.fasta
 
 # store the original TE name with new names if needed
 paste <(awk '/>/ {printf(">%09d\n",NR)}' $1) <(grep '>' $1) > $2/consensi.input.names
 
 # get the headers
-cat $2/$filename.2.fasta | grep '^>' | cut -f 2 -d '>' | awk -v OFS="\t" '{print $filename,$filename}' > $2/$filename.names
+cat $2/$filename.2.fasta | grep '^>' | cut -f 2 -d '>' | awk -v OFS="\t" '{print $1,$1}' > $2/$filename.names
 
 # run mafft alignment -note, if using too much RAM, there is an alternative.
 mafft --thread $3 $2/$filename.2.fasta > $2/$filename.aligned.fasta
