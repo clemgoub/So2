@@ -24,8 +24,8 @@ Simple_repeatcol="#8686ac" #darker blue/gray
 Unknowncol="#f2f2f2" #pale grey
 
 if [[ $1 == "" ]]; then
-echo "no input provided (RepeatMasker "\.out" file)"
-echo "USAGE: \./rm2gff3\.sh RM\.out"
+echo "no input provided (RepeatMasker ".out" file)"
+echo "USAGE: ./rm2gff3.sh RM.out"
 else 
 
 #awk 'NR > 3 {print $5"\tRepeatMasker-4.0.1\tsimilarity\t"$6"\t"$7"\t"$1"\t"$9"\t.\tTarget="$10" "$11" "$12" "$13" "$14";Div="$2";Del="$3";Ind="$4}' $1 |\
