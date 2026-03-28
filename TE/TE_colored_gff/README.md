@@ -9,6 +9,8 @@
 ### Notes
 - The script considers TE headers to be on the Repeat Masker format --> **NAME#Order/Superfamily**
 - **Orders**:LINE, SINE, DNA, LTR, RC, Low_complexity, Satellite and Simple_repeat will be colored
-- All others Classes/Order will be colored in light grey
+- Penelope (PLE), DIRS, Maverick and Crypton are handled as separate subclasses with their own colors
+- Specific subclasses take priority over broad orders (e.g. `LINE/Penelope` → PLE color, `LTR/DIRS` → DIRS color)
+- All others Classes/Order will be colored in light grey; every input entry is guaranteed to produce exactly one output line
 - Colors can be changed using HTML RGB syntax *e.g.: #3399ff*
 - The script will parse any .out file regarding the format of the TE header, beware that in that case the coloring may be inconsistent

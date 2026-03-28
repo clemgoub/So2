@@ -45,19 +45,24 @@ awk -v LINEcol="#3399ff" \
 	-v CRYcols="#8f1800" \
 	-v MAVcols="#669999" \
 	-v Unknowncol="#c9c9c9" \
-'BEGIN {print "\#\#gff-version 3"}; \
-/LINE\// {print $0";color="LINEcol} \
-/SINE\// {print $0";color="SINEcol} \
-/TIR\// {print $0";color="TIRcol} \
-/LTR\// {print $0";color="LTRcol} \
-/RC\// {print $0";color="RCcol} \
-/Low_complexity/ {print $0";color="Low_complexitycol} \
-/Satellite/ {print $0";color="Satellitecol} \
-/Simple_repeat/ {print $0";color="Simple_repeatcol} \
-/Penelope/ {print $0";color="PLEcol} \
-/DIRS/ {print $0";color="DIRScols} \
-/CRY/ {print $0";color="CRYcols} \
-/MAV/ {print $0";color="MAVcols} \
-!/LINE\// && !/SINE\// && !/TIR\// && !/LTR\// && !/RC\// && !/Low_complexity/ && !/Satellite/ && !/Simple_repeat/ && !/Penelope/ && !/DIRS/ && !/CRY/ && !/MAV/ {print $0";color="Unknowncol}' 
+'BEGIN {print "\#\#gff-version 3"}
+{
+    # Priority order: specific subcategories before broad classes to avoid duplicates
+    # (e.g. LINE/Penelope -> Penelope color; LTR/DIRS -> DIRS color)
+    # The final else guarantees every input line produces exactly one output line.
+    if      (/Penelope/)      {print $0";color="PLEcol}
+    else if (/DIRS/)          {print $0";color="DIRScols}
+    else if (/CRY/)           {print $0";color="CRYcols}
+    else if (/MAV/)           {print $0";color="MAVcols}
+    else if (/LINE\//)        {print $0";color="LINEcol}
+    else if (/SINE\//)        {print $0";color="SINEcol}
+    else if (/TIR\//)         {print $0";color="TIRcol}
+    else if (/LTR\//)         {print $0";color="LTRcol}
+    else if (/RC\//)          {print $0";color="RCcol}
+    else if (/Low_complexity/){print $0";color="Low_complexitycol}
+    else if (/Satellite/)     {print $0";color="Satellitecol}
+    else if (/Simple_repeat/) {print $0";color="Simple_repeatcol}
+    else                      {print $0";color="Unknowncol}
+}'
 
 fi
